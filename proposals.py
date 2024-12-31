@@ -26,6 +26,7 @@ class Proposal:
             Verifier(verifier_card, option)
             for verifier_card, option in zip(verifiers_cards, options)
         ]
+        self._accepted_codes = None
 
     def __repr__(self):
         return f"Proposal(verifiers={self.verifiers}, accepted_codes={self.accepted_codes()})"
@@ -34,11 +35,13 @@ class Proposal:
         return all(verifier.check(code) for verifier in self.verifiers)
 
     def accepted_codes(self):
-        return [
-            code
-            for code in codes.generate_codes()
-            if self.check(code)
-        ]
+        if  self._accepted_codes is None:
+            self._accepted_codes = [
+                code
+                for code in codes.generate_codes()
+                if self.check(code)
+            ]
+        return self._accepted_codes
 
     def drop_verifier(self, verifier_card_index: int) -> Self:
         assert verifier_card_index < len(self.verifiers)

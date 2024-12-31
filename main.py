@@ -21,4 +21,4 @@ if __name__ == "__main__":
     print("non-redundant proposals:", len(non_redundant))
     for proposal in non_redundant:
         print(proposal)
-    print(solve.solve(non_redundant))
+    print(solve.solve(non_redundant)[0])
