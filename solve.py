@@ -102,3 +102,14 @@ def solve(
     if best is not None:
         assert 2**len(best[0]) >= len(proposals)
     return best
+
+
+def solve_puzzle(verifier_cards: list[int]) -> tuple[list[tuple[codes.Code, int, bool]], codes.Code]:
+    all_props = []
+    for proposal in props.generate_proposals(verifier_cards):
+        all_props.append(proposal)
+    solvable_proposals = props.filter_unsolvable(all_props)
+    non_redundant = props.filter_redundant(solvable_proposals)
+    solution = solve(non_redundant)
+    assert solution is not None
+    return solution
